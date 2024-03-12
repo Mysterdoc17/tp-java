@@ -12,9 +12,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,11 +29,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.motion.utils.Oscillator.TAG
+import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.ui.navigation.NavGraph
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.tpdevmobile.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -42,7 +50,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             var nb = remember {
                 mutableStateOf(0)
-            }
+            },
+            val navController = rememberNavController()
             MyApplicationTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -64,26 +73,19 @@ class MainActivity : ComponentActivity() {
                                      )
                         },
                         content = {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(it)
-                            ) {
-                                Column(
-                                    verticalArrangement = Arrangement.SpaceEvenly,
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    modifier = Modifier.fillMaxSize()
-                                ) {
-                                    Text(text = nb.value.toString(), fontSize = 50.sp)
-                                    Button(onClick = {
-                                        nb.value += 1
-                                    }) {
-                                        Text(text = "+")
-                                    }
-                                }
-                            }
+                            NavGraph(navController = "")
                         },
-                        bottomBar = {/**/}
+                        bottomBar = {
+                            BottomAppBar {
+                                NavigationBarItem(
+                                    selected = true,
+                                    onClick = { /*TODO*/ },
+                                    icon = { Icon(
+                                        imageVector = ImageVector.vectorResource(id = R.drawable.baseline_3p_24),
+                                        contentDescription = ""
+                                    )})
+                            }
+                        }
                     )
                 }
             }
